@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { STATUS_EVENTO_BADGE, STATUS_EVENTO_LABELS } from "@/lib/labels"
 import { getFeriadosNacionais } from "@/lib/feriados"
 import { createClient } from "@/lib/supabase/server"
@@ -90,21 +90,19 @@ export default async function CalendarioPage({
           <p className="text-muted-foreground">Eventos e feriados nacionais.</p>
         </div>
         <div className="flex items-center gap-2">
-          <Link
-            href={`/calendario?ano=${prevYear}&mes=${prevMonth}`}
-            className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
-          >
-            <ChevronLeft className="size-4" />
-          </Link>
+          <Button variant="outline" size="icon" asChild>
+            <Link href={`/calendario?ano=${prevYear}&mes=${prevMonth}`}>
+              <ChevronLeft className="size-4" />
+            </Link>
+          </Button>
           <span className="w-40 text-center text-sm font-medium">
             {MONTH_NAMES[month - 1]} {year}
           </span>
-          <Link
-            href={`/calendario?ano=${nextYear}&mes=${nextMonth}`}
-            className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
-          >
-            <ChevronRight className="size-4" />
-          </Link>
+          <Button variant="outline" size="icon" asChild>
+            <Link href={`/calendario?ano=${nextYear}&mes=${nextMonth}`}>
+              <ChevronRight className="size-4" />
+            </Link>
+          </Button>
         </div>
       </div>
 
