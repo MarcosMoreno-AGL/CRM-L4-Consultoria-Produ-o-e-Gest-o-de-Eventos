@@ -3,6 +3,7 @@ create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   nome text not null,
   email text not null,
+  telefone text,
   role text not null default 'membro' check (role in ('admin', 'membro')),
   created_at timestamptz not null default now()
 );
@@ -49,11 +50,12 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, nome, email, role)
+  insert into public.profiles (id, nome, email, telefone, role)
   values (
     new.id,
     coalesce(new.raw_user_meta_data ->> 'nome', new.email),
     new.email,
+    new.raw_user_meta_data ->> 'telefone',
     coalesce(new.raw_user_meta_data ->> 'role', 'membro')
   );
   return new;

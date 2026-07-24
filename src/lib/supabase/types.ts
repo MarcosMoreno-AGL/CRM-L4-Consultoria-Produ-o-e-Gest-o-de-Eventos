@@ -1,13 +1,7 @@
 export type ProfileRole = "admin" | "membro"
 export type ClienteTipo = "pessoa_fisica" | "pessoa_juridica"
 export type ClienteOrigem = "indicacao" | "instagram" | "site" | "outro"
-export type EstagioFunil =
-  | "novo"
-  | "contato_feito"
-  | "proposta_enviada"
-  | "negociacao"
-  | "fechado_ganho"
-  | "fechado_perdido"
+export type EstagioFunil = "novo" | "reuniao_agendada" | "contrato_analise" | "fechado"
 export type TipoEvento = "casamento" | "aniversario" | "corporativo" | "formatura" | "outro"
 export type StatusEvento = "planejamento" | "confirmado" | "em_andamento" | "concluido" | "cancelado"
 export type CategoriaFornecedor = "buffet" | "decoracao" | "som_luz" | "fotografia" | "outro"
@@ -22,6 +16,7 @@ export interface Database {
           id: string
           nome: string
           email: string
+          telefone: string | null
           role: ProfileRole
           created_at: string
         }
@@ -29,11 +24,13 @@ export interface Database {
           id: string
           nome: string
           email: string
+          telefone?: string | null
           role?: ProfileRole
         }
         Update: {
           nome?: string
           email?: string
+          telefone?: string | null
           role?: ProfileRole
         }
         Relationships: []

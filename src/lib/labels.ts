@@ -10,22 +10,32 @@ import type {
 } from "@/lib/supabase/types"
 
 export const ESTAGIO_FUNIL_LABELS: Record<EstagioFunil, string> = {
-  novo: "Novo",
-  contato_feito: "Contato feito",
-  proposta_enviada: "Proposta enviada",
-  negociacao: "Negociação",
-  fechado_ganho: "Fechado (ganho)",
-  fechado_perdido: "Fechado (perdido)",
+  novo: "Nova Oportunidade",
+  reuniao_agendada: "Reuniões Agendadas",
+  contrato_analise: "Contratos em Análise",
+  fechado: "Eventos Fechados",
 }
 
 export const ESTAGIO_FUNIL_ORDER: EstagioFunil[] = [
   "novo",
-  "contato_feito",
-  "proposta_enviada",
-  "negociacao",
-  "fechado_ganho",
-  "fechado_perdido",
+  "reuniao_agendada",
+  "contrato_analise",
+  "fechado",
 ]
+
+export const ESTAGIO_FUNIL_COLUMN_STYLE: Record<EstagioFunil, string> = {
+  novo: "border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900/40",
+  reuniao_agendada: "border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30",
+  contrato_analise: "border-blue-300 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30",
+  fechado: "border-emerald-300 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-950/30",
+}
+
+export const ESTAGIO_FUNIL_HEADER_STYLE: Record<EstagioFunil, string> = {
+  novo: "text-neutral-700 dark:text-neutral-300",
+  reuniao_agendada: "text-amber-700 dark:text-amber-400",
+  contrato_analise: "text-blue-700 dark:text-blue-400",
+  fechado: "text-emerald-700 dark:text-emerald-400",
+}
 
 export const CLIENTE_TIPO_LABELS: Record<ClienteTipo, string> = {
   pessoa_fisica: "Pessoa física",

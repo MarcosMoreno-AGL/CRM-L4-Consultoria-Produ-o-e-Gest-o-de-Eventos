@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { removeMember, updateMemberRole } from "@/app/(app)/configuracoes/actions"
+import { ResetPasswordDialog } from "@/app/(app)/configuracoes/reset-password-dialog"
 import type { Database, ProfileRole } from "@/lib/supabase/types"
 
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
@@ -48,6 +49,7 @@ export function MembersTable({ members, currentUserId }: { members: Profile[]; c
         <TableRow>
           <TableHead>Nome</TableHead>
           <TableHead>E-mail</TableHead>
+          <TableHead>Telefone</TableHead>
           <TableHead>Perfil</TableHead>
           <TableHead />
         </TableRow>
@@ -57,6 +59,7 @@ export function MembersTable({ members, currentUserId }: { members: Profile[]; c
           <TableRow key={member.id}>
             <TableCell className="font-medium">{member.nome}</TableCell>
             <TableCell>{member.email}</TableCell>
+            <TableCell>{member.telefone ?? "—"}</TableCell>
             <TableCell>
               <Select
                 value={member.role}
@@ -73,11 +76,14 @@ export function MembersTable({ members, currentUserId }: { members: Profile[]; c
               </Select>
             </TableCell>
             <TableCell>
-              {member.id !== currentUserId && (
-                <Button variant="ghost" size="icon-sm" onClick={() => handleRemove(member)}>
-                  <Trash2 />
-                </Button>
-              )}
+              <div className="flex items-center justify-end gap-1">
+                <ResetPasswordDialog member={member} />
+                {member.id !== currentUserId && (
+                  <Button variant="ghost" size="icon-sm" onClick={() => handleRemove(member)}>
+                    <Trash2 />
+                  </Button>
+                )}
+              </div>
             </TableCell>
           </TableRow>
         ))}

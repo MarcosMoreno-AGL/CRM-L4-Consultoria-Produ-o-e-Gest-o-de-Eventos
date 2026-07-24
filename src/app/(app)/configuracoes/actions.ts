@@ -9,10 +9,19 @@ import type { ProfileRole } from "@/lib/supabase/types"
 const inviteSchema = z.object({
   nome: z.string().min(2, "Informe o nome"),
   email: z.email("E-mail inválido"),
+  telefone: z.string().optional(),
   password: z.string().min(8, "Mínimo de 8 caracteres"),
   role: z.enum(["admin", "membro"]),
 })
 export type InviteFormValues = z.infer<typeof inviteSchema>
+
+const resetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(8, "Mínimo de 8 caracteres")
+    .regex(/[A-Za-z]/, "Inclua ao menos uma letra")
+    .regex(/[0-9]/, "Inclua ao menos um número"),
+})
 
 async function assertAdmin() {
   const supabase = await createClient()
@@ -34,14 +43,26 @@ export async function inviteMember(values: InviteFormValues) {
     email: parsed.email,
     password: parsed.password,
     email_confirm: true,
-    user_metadata: { nome: parsed.nome, role: parsed.role },
+    user_metadata: { nome: parsed.nome, telefone: parsed.telefone, role: parsed.role },
   })
   if (error) throw new Error(error.message)
 
-  // Trigger creates the profile row; make sure role/nome match in case metadata coalesce differs
-  await admin.from("profiles").update({ nome: parsed.nome, role: parsed.role }).eq("id", data.user.id)
+  // Trigger creates the profile row; make sure role/nome/telefone match in case metadata coalesce differs
+  await admin
+    .from("profiles")
+    .update({ nome: parsed.nome, telefone: parsed.telefone, role: parsed.role })
+    .eq("id", data.user.id)
 
   revalidatePath("/configuracoes")
+}
+
+export async function resetMemberPassword(id: string, password: string) {
+  await assertAdmin()
+  const parsed = resetPasswordSchema.parse({ password })
+
+  const admin = createAdminClient()
+  const { error } = await admin.auth.admin.updateUserById(id, { password: parsed.password })
+  if (error) throw new Error(error.message)
 }
 
 export async function updateMemberRole(id: string, role: ProfileRole) {

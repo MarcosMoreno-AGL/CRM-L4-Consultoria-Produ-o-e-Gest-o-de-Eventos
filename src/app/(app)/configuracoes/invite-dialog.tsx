@@ -25,6 +25,7 @@ import { inviteMember } from "@/app/(app)/configuracoes/actions"
 const formSchema = z.object({
   nome: z.string().min(2, "Informe o nome"),
   email: z.email("E-mail inválido"),
+  telefone: z.string().optional(),
   password: z.string().min(8, "Mínimo de 8 caracteres"),
   role: z.enum(["admin", "membro"]),
 })
@@ -36,7 +37,7 @@ export function InviteDialog() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { nome: "", email: "", password: "", role: "membro" },
+    defaultValues: { nome: "", email: "", telefone: "", password: "", role: "membro" },
   })
 
   async function onSubmit(values: FormValues) {
@@ -85,6 +86,19 @@ export function InviteDialog() {
                   <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="telefone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

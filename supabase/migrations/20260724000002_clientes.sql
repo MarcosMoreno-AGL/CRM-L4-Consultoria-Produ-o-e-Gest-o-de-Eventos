@@ -8,7 +8,7 @@ create table public.clientes (
   endereco text,
   origem text check (origem in ('indicacao', 'instagram', 'site', 'outro')),
   estagio_funil text not null default 'novo' check (
-    estagio_funil in ('novo', 'contato_feito', 'proposta_enviada', 'negociacao', 'fechado_ganho', 'fechado_perdido')
+    estagio_funil in ('novo', 'reuniao_agendada', 'contrato_analise', 'fechado')
   ),
   observacoes text,
   created_by uuid references public.profiles (id) on delete set null,

@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/server"
 import { FunilChart } from "@/app/(app)/dashboard/funil-chart"
+import { KanbanBoard } from "@/app/(app)/clientes/kanban-board"
 import type { EstagioFunil } from "@/lib/supabase/types"
 
 function monthRange() {
@@ -45,7 +46,7 @@ export default async function DashboardPage() {
       .gte("data_pagamento", start)
       .lte("data_pagamento", end),
     supabase.from("financeiro_parcelas").select("valor").in("status", ["pendente", "atrasado"]),
-    supabase.from("clientes").select("estagio_funil"),
+    supabase.from("clientes").select("*"),
     supabase
       .from("eventos")
       .select("id, nome_evento, data_evento, status, clientes(nome)")
@@ -56,9 +57,7 @@ export default async function DashboardPage() {
 
   const receitaMes = (parcelasPagasMes ?? []).reduce((s, p) => s + p.valor, 0)
   const receitaPrevista = (parcelasEmAberto ?? []).reduce((s, p) => s + p.valor, 0)
-  const leadsAtivos = (clientesFunil ?? []).filter(
-    (c) => c.estagio_funil !== "fechado_ganho" && c.estagio_funil !== "fechado_perdido"
-  ).length
+  const leadsAtivos = (clientesFunil ?? []).filter((c) => c.estagio_funil !== "fechado").length
 
   const funilCounts = ESTAGIO_FUNIL_ORDER.reduce(
     (acc, estagio) => {
@@ -114,10 +113,19 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Funil de clientes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <KanbanBoard clientes={clientesFunil ?? []} />
+        </CardContent>
+      </Card>
+
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Funil de clientes</CardTitle>
+            <CardTitle>Resumo do funil</CardTitle>
           </CardHeader>
           <CardContent>
             <FunilChart counts={funilCounts} />

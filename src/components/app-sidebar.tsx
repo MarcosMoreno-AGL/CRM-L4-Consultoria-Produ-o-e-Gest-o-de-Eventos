@@ -6,9 +6,11 @@ import {
   LayoutDashboard,
   Users,
   CalendarDays,
+  CalendarRange,
   Truck,
   Wallet,
   Settings,
+  Contact,
 } from "lucide-react"
 
 import { Logo } from "@/components/logo"
@@ -28,7 +30,9 @@ import {
 const NAV_ITEMS = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Clientes", url: "/clientes", icon: Users },
+  { title: "Contatos", url: "/contatos", icon: Contact },
   { title: "Eventos", url: "/eventos", icon: CalendarDays },
+  { title: "Calendário", url: "/calendario", icon: CalendarRange },
   { title: "Fornecedores", url: "/fornecedores", icon: Truck },
   { title: "Financeiro", url: "/financeiro", icon: Wallet },
 ]
