@@ -15,8 +15,8 @@ export default async function ClientesPage() {
     <div className="grid gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Clientes</h1>
-          <p className="text-muted-foreground">Funil de vendas e cadastro de clientes.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Cadastro e Prospecção Clientes</h1>
+          <p className="text-muted-foreground">Gestão de Clientes - Prospecção</p>
         </div>
         <ClienteDialog />
       </div>
